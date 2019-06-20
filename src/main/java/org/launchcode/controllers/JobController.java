@@ -46,6 +46,7 @@ public class JobController {
         // redirect to the job detail view for the new Job.
         if (errors.hasErrors()) {
 
+
                 model.addAttribute(new JobForm());
                 return "new-job";
         }
@@ -53,7 +54,7 @@ public class JobController {
         String myJobName = jobForm.getName();
         Employer myJobEmployer = jobData.getEmployers().findById(jobForm.getEmployerId());
         Location myJobLocation = jobData.getLocations().findById(jobForm.getLocationId());
-        PositionType myJobPosition = jobData.getPositionTypes().findById(jobForm.getpositionTypesId());
+        PositionType myJobPosition = jobData.getPositionTypes().findById(jobForm.getPositionTypesId());
         CoreCompetency myJobCoreCompetency = jobData.getCoreCompetencies().findById(jobForm.getCoreCompetenciesId());
 
 

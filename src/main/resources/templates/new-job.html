@@ -8,12 +8,14 @@
 
 <div class="container body-content">
 
+
     <form th:object="${jobForm}" method="post">
 
         <div class="form-group">
             <label th:for="name">Name</label>
             <input th:field="*{name}" />
-            <div th:errors="*{name}"></div>
+            <span th:errors="*{name}"></span>
+
         </div>
 
         <div class="form-group">
@@ -26,7 +28,7 @@
         </div>
             <div class="form-group">
                 <label th:for="locationId">Location</label>
-                <select th:field="*{locations}">
+                <select th:field="*{locationId}">
                     <option th:each="location : *{locations}"
                             th:value="${location.id}"
                             th:text="${location.value}"></option>
@@ -34,15 +36,16 @@
             </div>
             <div class="form-group">
                 <label th:for="coreCompetenciesId">Skill</label>
-                <select th:field="*{coreCompetencies}">
+                <select th:field="*{coreCompetenciesId}">
                 <option th:each="coreCompetency : *{coreCompetencies}"
                         th:value="${coreCompetency.id}"
                         th:text="${coreCompetency.value}"></option>
+
                 </select>
             </div>
             <div class="form-group">
                 <label th:for="positionTypesId">Position Type</label>
-                <select th:field="*{positionTypes}">
+                <select th:field="*{positionTypesId}">
                     <option th:each="positionType : *{positionTypes}"
                             th:value="${positionType.id}"
                             th:text="${positionType.value}"></option>
