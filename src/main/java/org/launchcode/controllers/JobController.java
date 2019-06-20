@@ -1,5 +1,6 @@
 package org.launchcode.controllers;
 
+import org.launchcode.models.*;
 import org.launchcode.models.forms.JobForm;
 import org.launchcode.models.data.JobData;
 import org.springframework.stereotype.Controller;
@@ -21,15 +22,13 @@ import java.util.HashMap;
 public class JobController {
 
     private JobData jobData = JobData.getInstance();
+    private Object JobForm;
 
     // The detail display for a given Job at URLs like /job?id=17
     @RequestMapping(value = "", method = RequestMethod.GET)
 
         // TODO #1 - get the Job with the given ID and pass it into the view
        public String index(Model model, int id) {
-
-
-
             model.addAttribute("job", jobData.findById(id));
        return "job-detail";
     }
@@ -42,12 +41,31 @@ public class JobController {
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public String add(Model model, @Valid JobForm jobForm, Errors errors) {
-
-        // TODO #6 - Validate the JobForm model, and if valid, create a
+        // TODO #6 - Validate the JobForm model, and if valid
         // new Job and add it to the jobData data store. Then
         // redirect to the job detail view for the new Job.
+        if (errors.hasErrors()) {
 
-        return "";
+                model.addAttribute(new JobForm());
+                return "new-job";
+        }
+
+        String myJobName = jobForm.getName();
+        Employer myJobEmployer = jobData.getEmployers().findById(jobForm.getEmployerId());
+        Location myJobLocation = jobData.getLocations().findById(jobForm.getLocationId());
+        PositionType myJobPosition = jobData.getPositionTypes().findById(jobForm.getpositionTypesId());
+        CoreCompetency myJobCoreCompetency = jobData.getCoreCompetencies().findById(jobForm.getCoreCompetenciesId());
+
+
+        Job myNewJob = new Job(myJobName,myJobEmployer, myJobLocation, myJobPosition, myJobCoreCompetency);
+
+        jobData.add(myNewJob);
+
+        int newID = myNewJob.getId();
+
+        model.addAttribute("job", jobData.findById(newID) );
+
+        return "redirect:?id=" + newID;
 
     }
 }
